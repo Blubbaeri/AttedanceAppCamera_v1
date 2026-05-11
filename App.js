@@ -1,20 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { enableScreens } from 'react-native-screens';
+
+// Aktifkan kembali screens karena library pendukung sudah lengkap
+enableScreens(true);
+
+import HomeScreen from './pages/HomeScreen';
+import HistoryScreen from './pages/HistoryScreen';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'qr-code' : 'qr-code-outline';
+            } else if (route.name === 'HistoryTab') {
+              iconName = focused ? 'time' : 'time-outline';
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: '#007bff',
+          tabBarInactiveTintColor: 'gray',
+          headerShown: false,
+        })}
+      >
+        <Tab.Screen 
+          name="Home" 
+          component={HomeScreen} 
+          options={{ title: 'Scanner' }}
+        />
+        <Tab.Screen 
+          name="HistoryTab" 
+          component={HistoryScreen} 
+          options={{ title: 'Riwayat' }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
