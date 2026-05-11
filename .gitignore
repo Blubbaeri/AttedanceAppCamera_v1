@@ -39,3 +39,14 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
